@@ -205,41 +205,63 @@ h4 {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 999;
+
+  opacity: 1;
+  transform: scale(1, 1);
+
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .backdrop.is-hidden {
   opacity: 0;
+  transform: scale(1, 1);
   pointer-events: none;
 }
 .backdrop.is-hidden .modal {
-  transform: scale(0.1) translate(-50%, -50%);
+  transform: scale(0, 0) translate(-50%, -50%);
 }
 .modal {
   position: absolute;
   display: flex;
   flex-direction: column;
-  align-items: center;
   left: 50%;
   top: 50%;
 
-  transform: scale(1) translate(-50%, -50%);
-  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1, 1) translate(-50%, -50%);
+  opacity: 1;
 
   width: 528px;
   height: 581px;
   padding: 40px;
 
-  background-color: #fff;
+  background-color: var(--primary-white-color);
+  /*overflow: hidden;*/
+
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.close-form {
+.close-button {
   position: absolute;
   top: 8px;
   right: 8px;
+  display: flex;
 
+  width: 30px;
+  height: 30px;
+
+  background-color: var(--primary-white-color);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 100px;
+
+  transition: fill 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.close-item {
+  margin: auto;
   width: 17px;
   height: 17px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-
-  border-radius: 100px;
+}
+.close-button:focus .close-item {
+  fill: var(--primary-blue-color);
 }
 .form-title {
   margin-bottom: 30px;
@@ -253,40 +275,100 @@ h4 {
 
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-.modal div:nth-child(-n + 5) {
+.form-field:nth-child(-n + 5) {
   margin-bottom: 28px;
 }
-.modal div:last-child {
+.form-field:nth-child(6) {
+  margin-bottom: 20px;
+}
+/*.modal div:last-child {
   margin-top: 20px;
   margin-bottom: 30px;
+}*/
+.form-field {
+  position: relative;
+  width: 100%;
+}
+.form-input {
+  width: 100%;
+  margin: 0;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 42px;
+  border: 1px solid rgba(33, 33, 33, 0.2);
+  border-radius: 4px;
+
+  transition: border 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.form-input:focus {
+  border: 1px solid var(--primary-blue-color);
+}
+.textarea {
+  resize: none;
+  padding-left: 16px;
 }
 .form-label {
+  position: absolute;
+  top: 50%;
+  left: 42px;
+
+  transform: translateY(-50%);
+
   font-size: 14px;
   line-height: 1.14;
   letter-spacing: 0.01em;
 
   color: var(--primary-text-color);
+
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.form-icon-name {
+.form-comment {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+
+  font-size: 14px;
+  line-height: 1.14;
+  letter-spacing: 0.01em;
+
+  color: var(--primary-text-color);
+
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.form-input:focus + .form-label,
+.form-input:not(:placeholder-shown) + .form-label {
+  color: var(--primary-blue-color);
+  transform: translate(-26px, -40px);
+}
+.form-input:focus + .form-comment,
+.form-input:not(:placeholder-shown) + .form-comment {
+  color: var(--primary-blue-color);
+  transform: translateY(-35px);
+}
+.form-icon {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+
+  fill: var(--title-text-color);
+
+  transition: fill 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.form-input:focus ~ .form-icon {
+  fill: var(--primary-blue-color);
+}
+.form-field .name {
   width: 12px;
   height: 12px;
 }
-.form-icon-tel {
+.form-field .tel {
   width: 13px;
   height: 13px;
 }
-.form-icon-mail {
+.form-field .mail {
   width: 15px;
   height: 12px;
-}
-.form-field {
-  width: 100%;
-}
-.form-field input {
-  width: 100%;
-}
-.form-field textarea {
-  width: 100%;
 }
 .form-field label[for="policy"] {
   font-size: 14px;
@@ -300,11 +382,17 @@ h4 {
   line-height: 1.71;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+.submit-form {
+  display: flex;
+  margin: 0;
+  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
+}
 .submit-button {
   display: inline-block;
   border-radius: 4px;
   padding: 10px 55px;
-  margin-top: 30px;
   margin-bottom: 40px;
 
   min-width: 200px;
